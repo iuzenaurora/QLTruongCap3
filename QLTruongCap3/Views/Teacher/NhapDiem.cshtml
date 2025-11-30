@@ -1,0 +1,147 @@
+﻿@model List<QLTruongCap3.Models.sp_GetDanhSachHocSinhVaDiem_Result>
+@{
+    Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
+    // Lấy trạng thái ReadOnly từ Controller truyền sang
+    bool isReadOnly = ViewBag.IsReadOnly != null && (bool)ViewBag.IsReadOnly;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h2 class="text-primary m-0">NHẬP ĐIỂM</h2>
+        @if (isReadOnly && Model != null && Model.Count > 0)
+        {
+            <span class="badge bg-warning text-dark fs-6"><i class="fa fa-eye"></i> Chế độ xem (GVCN)</span>
+        }
+        else if (!isReadOnly && Model != null && Model.Count > 0)
+        {
+            <span class="badge bg-success fs-6"><i class="fa fa-pencil"></i> Chế độ nhập điểm</span>
+        }
+    </div>
+
+    @using (Html.BeginForm("NhapDiem", "Teacher", FormMethod.Get, new { @class = "row g-3 my-3 bg-light p-3 rounded shadow-sm" }))
+    {
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Năm học</label>
+            @Html.DropDownList("maNam", (SelectList)ViewBag.MaNam, "Chọn Năm", new { @class = "form-select", onchange = "this.form.submit()" })
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Học kỳ</label>
+            @Html.DropDownList("maHK", (SelectList)ViewBag.MaHK, "Chọn HK", new { @class = "form-select", onchange = "this.form.submit()" })
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Lớp</label>
+            @Html.DropDownList("maLop", (SelectList)ViewBag.MaLop, "Chọn Lớp", new { @class = "form-select", onchange = "this.form.submit()" })
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Môn học</label>
+            @Html.DropDownList("maMH", (SelectList)ViewBag.MaMH, "Chọn Môn", new { @class = "form-select", onchange = "this.form.submit()" })
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (Model != null && Model.Count > 0)
+    {
+        using (Html.BeginForm("LuuDiem", "Teacher", FormMethod.Post))
+        {
+            <input type="hidden" name="maNam" value="@Request["maNam"]" />
+            <input type="hidden" name="maHK" value="@Request["maHK"]" />
+            <input type="hidden" name="maLop" value="@Request["maLop"]" />
+            <input type="hidden" name="maMH" value="@Request["maMH"]" />
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover shadow-sm">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th style="width: 10%">Mã HS</th>
+                            <th style="width: 25%">Họ tên</th>
+                            <th style="width: 12%">Miệng (1)</th>
+                            <th style="width: 12%">15 Phút (1)</th>
+                            <th style="width: 12%">1 Tiết (2)</th>
+                            <th style="width: 12%">Thi (3)</th>
+                            <th style="width: 10%">TB Môn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td class="text-center align-middle">
+                                    @* Dùng Hidden Input với name tường minh để Binding chính xác *@
+                                    <input type="hidden" name="listDiem[@i].MAHS" value="@Model[i].MAHS" />
+                                    @Model[i].MAHS
+                                </td>
+                                <td class="align-middle fw-bold text-secondary">@Model[i].HOTEN</td>
+
+                                @* FIX: Sử dụng thẻ input trực tiếp với name="listDiem[i].PROP" để đảm bảo Server nhận được danh sách *@
+                                <td>
+                                    <input type="number" step="0.1" min="0" max="10"
+                                           name="listDiem[@i].DIEMMIENG"
+                                           value="@(Model[i].DIEMMIENG.HasValue ? Model[i].DIEMMIENG.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "")"
+                                           class="form-control text-center @(isReadOnly ? "bg-white" : "")"
+                                           @(isReadOnly ? "disabled" : "") />
+                                </td>
+
+                                <td>
+                                    <input type="number" step="0.1" min="0" max="10"
+                                           name="listDiem[@i].DIEM15PHUT"
+                                           value="@(Model[i].DIEM15PHUT.HasValue ? Model[i].DIEM15PHUT.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "")"
+                                           class="form-control text-center @(isReadOnly ? "bg-white" : "")"
+                                           @(isReadOnly ? "disabled" : "") />
+                                </td>
+
+                                <td>
+                                    <input type="number" step="0.1" min="0" max="10"
+                                           name="listDiem[@i].DIEM1TIET"
+                                           value="@(Model[i].DIEM1TIET.HasValue ? Model[i].DIEM1TIET.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "")"
+                                           class="form-control text-center @(isReadOnly ? "bg-white" : "")"
+                                           @(isReadOnly ? "disabled" : "") />
+                                </td>
+
+                                <td>
+                                    <input type="number" step="0.1" min="0" max="10"
+                                           name="listDiem[@i].DIEMTHI"
+                                           value="@(Model[i].DIEMTHI.HasValue ? Model[i].DIEMTHI.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "")"
+                                           class="form-control text-center @(isReadOnly ? "bg-white" : "")"
+                                           @(isReadOnly ? "disabled" : "") />
+                                </td>
+
+                                <td class="text-center align-middle fw-bold text-danger bg-light">
+                                    @(Model[i].DIEMTBMON.HasValue ? Model[i].DIEMTBMON.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            if (!isReadOnly)
+            {
+                <div class="d-flex justify-content-end mt-3 mb-5">
+                    <button type="submit" class="btn btn-success btn-lg shadow">
+                        <i class="fa fa-save"></i> LƯU ĐIỂM
+                    </button>
+                </div>
+            }
+        }
+    }
+    else if (!string.IsNullOrEmpty(Request["maLop"]) && !string.IsNullOrEmpty(Request["maMH"]))
+    {
+        <div class="alert alert-info mt-3 text-center">
+            Chưa có danh sách học sinh cho lớp và môn học này.
+        </div>
+    }
+</div>

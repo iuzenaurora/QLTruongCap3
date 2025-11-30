@@ -1,0 +1,29 @@
+﻿@model IEnumerable<QLTruongCap3.Models.LOP>
+@{ Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
+
+<h2>Quản Lý Lớp Học</h2>
+
+@using (Html.BeginForm("QuanLyLop", "Admin", FormMethod.Get, new { @class = "row g-3 mb-3" }))
+{
+    <div class="col-auto"><input type="text" name="searchMaLop" class="form-control" placeholder="Nhập mã lớp..." /></div>
+    <div class="col-auto">@Html.DropDownList("searchMaKhoi", (SelectList)ViewBag.MaKhoiList, "Tất cả Khối", new { @class = "form-select" })</div>
+    <div class="col-auto"><button type="submit" class="btn btn-primary">Tìm kiếm</button></div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr><th>Mã Lớp</th><th>Tên Lớp</th><th>Khối</th><th>Sĩ Số</th><th>GVCN</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MALOP</td>
+                <td>@item.TENLOP</td>
+                <td>@item.MAKHOI</td>
+                <td>@item.SISO</td>
+                <td>@(item.GIAOVIEN != null ? item.GIAOVIEN.HOTEN : "Chưa có")</td>
+            </tr>
+        }
+    </tbody>
+</table>

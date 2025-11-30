@@ -1,0 +1,120 @@
+﻿@model QLTruongCap3.Models.HOCSINH
+@{ Layout = "~/Views/Shared/_LayoutStudent.cshtml"; }
+<div class="container mt-4">
+    <!-- Tiêu đề trang với hiệu ứng đổ bóng nhẹ -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+        <h2 class="text-success text-uppercase fw-bold m-0">
+            <i class="fas fa-id-card me-2"></i>Hồ Sơ Học Sinh
+        </h2>
+        <span class="badge bg-success rounded-pill px-3 py-2">
+            <i class="fas fa-check-circle me-1"></i> @Model.TRANGTHAI
+        </span>
+    </div>
+
+    <div class="row">
+        <!-- Cột bên trái: Ảnh đại diện & Thông tin tóm tắt -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body text-center bg-light rounded">
+                    <div class="mb-3">
+                        <!-- Ảnh đại diện placeholder -->
+                        @if (Model.GIOITINH == "Nam")
+                        {
+                            <img src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png" alt="Student Avatar" class="rounded-circle shadow-sm" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #198754;">
+                        }
+                        else
+                        {
+                            <img src="https://cdn-icons-png.flaticon.com/512/2922/2922561.png" alt="Student Avatar" class="rounded-circle shadow-sm" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #198754;">
+                        }
+                    </div>
+                    <h4 class="text-success fw-bold mb-1">@Model.HO @Model.TEN</h4>
+                    <p class="text-muted mb-3"><i class="fas fa-barcode me-1"></i> MSSV: <strong>@Model.MAHS</strong></p>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-success btn-sm"><i class="fas fa-key me-1"></i> Đổi mật khẩu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột bên phải: Thông tin chi tiết -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-success text-white fw-bold">
+                    <i class="fas fa-info-circle me-2"></i> THÔNG TIN CÁ NHÂN
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Ngày sinh -->
+                        <div class="col-sm-6">
+                            <label class="text-muted small text-uppercase fw-bold">Ngày sinh</label>
+                            <div class="fs-5">
+                                <i class="far fa-calendar-alt text-success me-2"></i>
+                                @(Model.NGAYSINH.HasValue ? Model.NGAYSINH.Value.ToString("dd/MM/yyyy") : "Chưa cập nhật")
+                            </div>
+                        </div>
+
+                        <!-- Giới tính -->
+                        <div class="col-sm-6">
+                            <label class="text-muted small text-uppercase fw-bold">Giới tính</label>
+                            <div class="fs-5">
+                                <i class="fas fa-venus-mars text-success me-2"></i>
+                                @Model.GIOITINH
+                            </div>
+                        </div>
+
+                        <!-- Dân tộc -->
+                        <div class="col-sm-6">
+                            <label class="text-muted small text-uppercase fw-bold">Dân tộc</label>
+                            <div class="fs-5">
+                                <i class="fas fa-users text-success me-2"></i>
+                                @Model.DANTOC
+                            </div>
+                        </div>
+
+                        <!-- Nơi sinh -->
+                        <div class="col-sm-6">
+                            <label class="text-muted small text-uppercase fw-bold">Nơi sinh</label>
+                            <div class="fs-5">
+                                <i class="fas fa-map-marker-alt text-success me-2"></i>
+                                @Model.NOISINH
+                            </div>
+                        </div>
+
+                        <hr class="my-3 text-muted">
+
+                        <!-- Địa chỉ -->
+                        <div class="col-12">
+                            <label class="text-muted small text-uppercase fw-bold">Địa chỉ liên hệ</label>
+                            <div class="fs-6">
+                                <i class="fas fa-home text-success me-2"></i>
+                                @Model.DIACHI
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-sm-6">
+                            <label class="text-muted small text-uppercase fw-bold">Email</label>
+                            <div class="fs-6 text-break">
+                                <i class="fas fa-envelope text-success me-2"></i>
+                                @(string.IsNullOrEmpty(Model.EMAIL) ? "Chưa cập nhật" : Model.EMAIL)
+                            </div>
+                        </div>
+
+                        <!-- Số điện thoại -->
+                        <div class="col-sm-6">
+                            <label class="text-muted small text-uppercase fw-bold">Điện thoại</label>
+                            <div class="fs-6">
+                                <i class="fas fa-phone text-success me-2"></i>
+                                @(string.IsNullOrEmpty(Model.DIENTHOAI) ? "Chưa cập nhật" : Model.DIENTHOAI)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light text-muted small">
+                    <i class="fas fa-clock me-1"></i> Ngày nhập học: @(Model.NGAYNHAPHOC.HasValue ? Model.NGAYNHAPHOC.Value.ToString("dd/MM/yyyy") : "N/A")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

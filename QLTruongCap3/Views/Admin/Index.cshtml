@@ -1,0 +1,17 @@
+﻿@model IEnumerable<QLTruongCap3.Models.SP_ThongKe_TrangChu_Result>
+@{ Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
+
+<h2 class="text-center text-danger mb-4">THỐNG KÊ HỆ THỐNG</h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3 text-center">
+                <div class="card-header"><h4>@item.ChiTieu</h4></div>
+                <div class="card-body">
+                    <h1 class="display-4">@item.SoLuong</h1>
+                </div>
+            </div>
+        </div>
+    }
+</div>

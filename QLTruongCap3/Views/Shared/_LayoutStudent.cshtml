@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Học Sinh</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- CSS Chung -->
+    <link href="~/Content/StyleChung.css" rel="stylesheet" />
+</head>
+<body class="theme-student">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index", "Student")"><i class="fas fa-user-graduate me-2"></i>HỌC SINH</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#studentNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="studentNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">@Html.ActionLink("Trang chủ", "Index", "Student", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Kết quả học tập", "XemDiem", "Student", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Thời khóa biểu", "ThoiKhoaBieu", "Student", null, new { @class = "nav-link" })</li>
+                </ul>
+                <span class="navbar-text text-white">
+                    <i class="fas fa-user-circle"></i> Xin chào, @User.Identity.Name |
+                    <a href="@Url.Action("Logout", "Account")" class="text-white fw-bold" style="text-decoration:none;">Đăng xuất <i class="fas fa-sign-out-alt"></i></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

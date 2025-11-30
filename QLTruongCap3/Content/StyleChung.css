@@ -1,0 +1,176 @@
+﻿/* =========================================
+   1. GLOBAL STYLES & VARIABLES
+   ========================================= */
+:root {
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --radius: 8px;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: #f8f9fa; /* Màu nền xám nhẹ */
+    color: #333;
+    padding-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* =========================================
+   2. THEME MÀU SẮC THEO VAI TRÒ
+   ========================================= */
+/* Admin Theme (Màu đỏ chủ đạo) */
+body.theme-admin {
+    --main-color: #dc3545;
+    --main-hover: #bb2d3b;
+}
+
+/* Teacher Theme (Màu xanh dương chủ đạo) */
+body.theme-teacher {
+    --main-color: #0d6efd;
+    --main-hover: #0b5ed7;
+}
+
+/* Student Theme (Màu xanh lá chủ đạo) */
+body.theme-student {
+    --main-color: #198754;
+    --main-hover: #157347;
+}
+
+/* Áp dụng biến màu vào các thành phần */
+.bg-primary, .bg-danger, .bg-success {
+    background-color: var(--main-color) !important;
+}
+
+.btn-primary {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+    .btn-primary:hover {
+        background-color: var(--main-hover);
+        border-color: var(--main-hover);
+    }
+
+.text-primary {
+    color: var(--main-color) !important;
+}
+
+/* =========================================
+   3. NAVBAR & LAYOUT
+   ========================================= */
+.navbar {
+    box-shadow: var(--shadow-md);
+    padding: 0.8rem 1rem;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.body-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-top: 2rem;
+    min-height: 80vh;
+}
+
+/* =========================================
+   4. CARDS (DASHBOARD & INFO)
+   ========================================= */
+.card {
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+
+.card-header {
+    background-color: var(--main-color);
+    color: white;
+    font-weight: 600;
+    border-bottom: none;
+    padding: 1rem;
+}
+
+/* =========================================
+   5. TABLES (BẢNG DỮ LIỆU)
+   ========================================= */
+.table {
+    background-color: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+    .table thead {
+        background-color: var(--main-color);
+        color: white;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        padding: 1rem;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,0.02);
+}
+
+/* =========================================
+   6. FORMS & INPUTS
+   ========================================= */
+.form-control, .form-select {
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ced4da;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 0.25rem rgba(var(--main-color), 0.25); /* Cần chỉnh lại RGB nếu muốn chuẩn */
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+/* =========================================
+   7. LOGIN PAGE STYLES
+   ========================================= */
+.login-body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.login-title {
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

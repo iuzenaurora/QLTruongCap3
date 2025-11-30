@@ -1,0 +1,12 @@
+﻿@model IEnumerable<QLTruongCap3.Models.THOIKHOABIEU>
+@{ Layout = "~/Views/Shared/_LayoutTeacher.cshtml"; }
+<h2>Lịch Giảng Dạy</h2>
+<table class="table table-striped">
+    <thead><tr><th>Thứ</th><th>Tiết</th><th>Lớp</th><th>Môn</th><th>Phòng</th></tr></thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr><td>Thứ @item.THU</td><td>@item.TIET</td><td>@item.MALOP</td><td>@item.MAMH</td><td>@item.MAPHONG</td></tr>
+        }
+    </tbody>
+</table>

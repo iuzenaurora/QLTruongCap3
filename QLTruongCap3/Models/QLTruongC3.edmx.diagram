@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4e722159f68d4fa48525b3955b514402" Name="Diagram1">
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.DIEM" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.DIEMDANH" Width="1.5" PointX="6" PointY="4.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.GIAOVIEN" Width="1.5" PointX="3.75" PointY="29" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCKY" Width="1.5" PointX="3.75" PointY="26.125" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCSINH" Width="1.5" PointX="3.75" PointY="17.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCSINH_NAMHOC" Width="1.5" PointX="3" PointY="14.25" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.KHOI" Width="1.5" PointX="1.5" PointY="18.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.LOAIDIEM" Width="1.5" PointX="0.75" PointY="6.375" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.LOP" Width="1.5" PointX="0.75" PointY="13.875" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.MONHOC" Width="1.5" PointX="3.75" PointY="22.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.NAMHOC" Width="1.5" PointX="0.75" PointY="9.875" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHANCONG" Width="1.5" PointX="3" PointY="9.875" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHONGHOC" Width="1.5" PointX="3.75" PointY="2.125" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHUHUYNH" Width="1.5" PointX="6" PointY="18.375" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.TAIKHOAN" Width="1.5" PointX="6" PointY="24" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.THOIKHOABIEU" Width="1.5" PointX="6" PointY="9.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_DiemDanhChuNhiem" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_NhapDiem" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_TKB" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_ThongTinVaLopCN" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_XemDiem" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_HS_TrangChu" Width="1.5" PointX="10.75" PointY="4.75" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_HK" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_HS" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_LOAI" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_MH" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_NAM" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DD_GV" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DD_HK" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DD_HS" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DD_MH" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_DD_NAM" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_LOP_GVCN" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_PC_GV" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TK_GV" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TKB_GV" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_PC_HK" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TKB_HK" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_HSN_HS" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_PH_HS" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TK_HS" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_HSN_LOP" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_HSN_NAM" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_LOP_KHOI" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_PC_LOP" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TKB_LOP" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_PC_MH" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TKB_MH" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_PC_NAM" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TKB_NAM" />
+        <AssociationConnector Association="QL_TRUONGC3Model.FK_TKB_PH" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

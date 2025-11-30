@@ -1,0 +1,23 @@
+﻿@model IEnumerable<QLTruongCap3.Models.HOCSINH>
+@{ Layout = "~/Views/Shared/_LayoutTeacher.cshtml"; }
+<h2>Điểm danh lớp chủ nhiệm: @ViewBag.TenLop</h2>
+@if (ViewBag.Error != null)
+{<div class="alert alert-warning">@ViewBag.Error</div> }
+else
+{
+<table class="table">
+    <thead><tr><th>Mã HS</th><th>Họ tên</th><th>Trạng thái</th><th>Ghi chú</th></tr></thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MAHS</td>
+                <td>@item.HO @item.TEN</td>
+                <td><select class="form-select"><option>Có mặt</option><option>Vắng có phép</option><option>Vắng không phép</option></select></td>
+                <td><input type="text" class="form-control" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button class="btn btn-primary">Lưu Điểm Danh</button>
+}
