@@ -1,0 +1,67 @@
+﻿@model QLTruongCap3.Models.LOP
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Thêm Lớp Mới";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h5 class="m-0 font-weight-bold text-white">Thêm Lớp Học Mới</h5>
+                <a href="@Url.Action("QuanLyLop", "Admin")" class="btn btn-light btn-sm">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                        <div class="mb-3 row">
+                            <label class="col-md-3 col-form-label fw-bold text-end">Mã Lớp <span class="text-danger">*</span></label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.MALOP, new { htmlAttributes = new { @class = "form-control", @placeholder = "VD: 10A5" } })
+                                @Html.ValidationMessageFor(model => model.MALOP, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-md-3 col-form-label fw-bold text-end">Tên Lớp <span class="text-danger">*</span></label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.TENLOP, new { htmlAttributes = new { @class = "form-control", @placeholder = "VD: Lớp 10A5" } })
+                                @Html.ValidationMessageFor(model => model.TENLOP, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-md-3 col-form-label fw-bold text-end">Khối <span class="text-danger">*</span></label>
+                            <div class="col-md-9">
+                                @Html.DropDownList("MAKHOI", null, "--- Chọn Khối ---", htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.MAKHOI, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-md-3 col-form-label fw-bold text-end">GV Chủ Nhiệm</label>
+                            <div class="col-md-9">
+                                @Html.DropDownList("MAGVCN", null, "--- Chọn Giáo Viên ---", htmlAttributes: new { @class = "form-select" })
+                                <small class="text-muted">Có thể để trống và cập nhật sau.</small>
+                                @Html.ValidationMessageFor(model => model.MAGVCN, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end pt-3 border-top">
+                            <button type="reset" class="btn btn-secondary me-2"><i class="fas fa-sync-alt"></i> Nhập lại</button>
+                            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu thông tin</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
