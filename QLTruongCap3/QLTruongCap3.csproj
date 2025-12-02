@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QLTruongCap3</RootNamespace>
     <AssemblyName>QLTruongCap3</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,8 +59,8 @@
     <Reference Include="System.Data.SQLite, Version=2.0.2.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.2.0.2\lib\net471\System.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=2.0.2.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.2.0.2\lib\net471\System.Data.SQLite.EF6.dll</HintPath>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.119.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.119.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -149,6 +150,7 @@
     <Compile Include="Models\DIEMDANH.cs">
       <DependentUpon>QLTruongC3.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DiemDanhItem.cs" />
     <Compile Include="Models\FN_ThongKeDiemDanh_HS_Result.cs">
       <DependentUpon>QLTruongC3.tt</DependentUpon>
     </Compile>
@@ -240,6 +242,9 @@
       <DependentUpon>QLTruongC3.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_ThongKe_XepLoaiToanTruong_Result.cs">
+      <DependentUpon>QLTruongC3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_TimKiemLop_Result.cs">
       <DependentUpon>QLTruongC3.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
@@ -348,6 +353,8 @@
     <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\Student\XemDiem.cshtml" />
     <Content Include="Views\Student\ThoiKhoaBieu.cshtml" />
+    <Content Include="Views\Admin\ThemLop.cshtml" />
+    <Content Include="Views\Admin\SuaLop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

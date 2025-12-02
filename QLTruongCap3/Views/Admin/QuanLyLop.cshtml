@@ -1,29 +1,156 @@
 ﻿@model IEnumerable<QLTruongCap3.Models.LOP>
-@{ Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
-
-<h2>Quản Lý Lớp Học</h2>
-
-@using (Html.BeginForm("QuanLyLop", "Admin", FormMethod.Get, new { @class = "row g-3 mb-3" }))
-{
-    <div class="col-auto"><input type="text" name="searchMaLop" class="form-control" placeholder="Nhập mã lớp..." /></div>
-    <div class="col-auto">@Html.DropDownList("searchMaKhoi", (SelectList)ViewBag.MaKhoiList, "Tất cả Khối", new { @class = "form-select" })</div>
-    <div class="col-auto"><button type="submit" class="btn btn-primary">Tìm kiếm</button></div>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Quản Lý Lớp Học";
 }
 
-<table class="table table-bordered">
-    <thead>
-        <tr><th>Mã Lớp</th><th>Tên Lớp</th><th>Khối</th><th>Sĩ Số</th><th>GVCN</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h5 class="m-0 font-weight-bold text-white">Quản Lý Lớp Học</h5>
+        <a href="@Url.Action("ThemLop", "Admin")" class="btn btn-light btn-sm fw-bold text-danger">
+            <i class="fas fa-plus-circle"></i> Thêm Lớp Mới
+        </a>
+    </div>
+    <div class="card-body">
+
+        @if (TempData["SuccessMessage"] != null)
         {
-            <tr>
-                <td>@item.MALOP</td>
-                <td>@item.TENLOP</td>
-                <td>@item.MAKHOI</td>
-                <td>@item.SISO</td>
-                <td>@(item.GIAOVIEN != null ? item.GIAOVIEN.HOTEN : "Chưa có")</td>
-            </tr>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         }
-    </tbody>
-</table>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <!-- Form Tìm Kiếm -->
+        @using (Html.BeginForm("QuanLyLop", "Admin", FormMethod.Get, new { @class = "row g-3 mb-4 p-3 bg-light rounded border" }))
+        {
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Tìm theo Mã Lớp:</label>
+                <input type="text" name="searchMaLop" value="@ViewBag.CurrentFilterMaLop" class="form-control" placeholder="Nhập mã lớp (VD: 10A1)..." />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Lọc theo Khối:</label>
+                @Html.DropDownList("searchMaKhoi", (SelectList)ViewBag.MaKhoiList, "--- Tất cả Khối ---", new { @class = "form-select" })
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search"></i> Tìm kiếm</button>
+            </div>
+        }
+
+        <!-- Bảng Dữ Liệu -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr class="table-danger text-center">
+                        <th width="10%">Mã Lớp</th>
+                        <th width="20%">Tên Lớp</th>
+                        <th width="10%">Khối</th>
+                        <th width="10%">Sĩ Số</th>
+                        <th width="30%">GVCN</th>
+                        <th width="20%">Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-primary">@item.MALOP</td>
+                                <td>@item.TENLOP</td>
+                                <td class="text-center">
+                                    @if (item.KHOI != null)
+                                    {<span>@item.KHOI.TENKHOI</span> }
+                                else
+                                { <span>@item.MAKHOI</span>}
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge bg-info text-dark">@item.SISO</span>
+                                </td>
+                                <td>
+                                    @if (item.GIAOVIEN != null)
+                                    {
+                                        <i class="fas fa-chalkboard-teacher text-success me-2"></i> @item.GIAOVIEN.HOTEN
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fst-italic">Chưa phân công</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <!-- Nút Sửa -->
+                                    <a href="@Url.Action("SuaLop", "Admin", new { id = item.MALOP.Trim() })" class="btn btn-warning btn-sm" title="Sửa thông tin">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <!-- Nút Xóa (Kích hoạt Modal dùng chung) -->
+                                    <button type="button" class="btn btn-danger btn-sm" title="Xóa lớp"
+                                            onclick="openDeleteModal('@item.MALOP.Trim()', '@item.TENLOP')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">Không tìm thấy lớp học nào phù hợp.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL XÓA DÙNG CHUNG (Đặt ngoài vòng lặp để tối ưu hiệu năng) -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa lớp <strong id="deleteTargetName"></strong> (<span id="deleteTargetId"></span>) không?<br />
+                <small class="text-danger">* Lưu ý: Không thể xóa lớp nếu đang có học sinh hoặc TKB.</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+
+                <!-- Form Submit Xóa -->
+                @using (Html.BeginForm("XoaLop", "Admin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <!-- Input ẩn chứa ID sẽ được Javascript cập nhật -->
+                    <input type="hidden" name="id" id="hiddenDeleteId" />
+                    <button type="submit" class="btn btn-danger">Xóa ngay</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script xử lý Modal -->
+<script>
+    function openDeleteModal(maLop, tenLop) {
+        // 1. Cập nhật thông tin hiển thị trong Modal
+        document.getElementById('deleteTargetName').innerText = tenLop;
+        document.getElementById('deleteTargetId').innerText = maLop;
+
+        // 2. Cập nhật giá trị ID vào input ẩn để gửi về Controller
+        document.getElementById('hiddenDeleteId').value = maLop;
+
+        // 3. Hiển thị Modal
+        var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        myModal.show();
+    }
+</script>

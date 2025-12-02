@@ -487,5 +487,69 @@ namespace QLTruongCap3.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_HS_XemThoiKhoaBieu_Result>("sp_HS_XemThoiKhoaBieu", mAHSParameter, mANAMParameter, mAHKParameter);
         }
+    
+        public virtual int sp_ThemLop(string mALOP, string tENLOP, string mAKHOI, string mAGVCN)
+        {
+            var mALOPParameter = mALOP != null ?
+                new ObjectParameter("MALOP", mALOP) :
+                new ObjectParameter("MALOP", typeof(string));
+    
+            var tENLOPParameter = tENLOP != null ?
+                new ObjectParameter("TENLOP", tENLOP) :
+                new ObjectParameter("TENLOP", typeof(string));
+    
+            var mAKHOIParameter = mAKHOI != null ?
+                new ObjectParameter("MAKHOI", mAKHOI) :
+                new ObjectParameter("MAKHOI", typeof(string));
+    
+            var mAGVCNParameter = mAGVCN != null ?
+                new ObjectParameter("MAGVCN", mAGVCN) :
+                new ObjectParameter("MAGVCN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ThemLop", mALOPParameter, tENLOPParameter, mAKHOIParameter, mAGVCNParameter);
+        }
+    
+        public virtual ObjectResult<sp_TimKiemLop_Result> sp_TimKiemLop(string mALOP, string mAKHOI)
+        {
+            var mALOPParameter = mALOP != null ?
+                new ObjectParameter("MALOP", mALOP) :
+                new ObjectParameter("MALOP", typeof(string));
+    
+            var mAKHOIParameter = mAKHOI != null ?
+                new ObjectParameter("MAKHOI", mAKHOI) :
+                new ObjectParameter("MAKHOI", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TimKiemLop_Result>("sp_TimKiemLop", mALOPParameter, mAKHOIParameter);
+        }
+    
+        public virtual int sp_SuaLop(string mALOP, string tENLOP, string mAKHOI, string mAGVCN)
+        {
+            var mALOPParameter = mALOP != null ?
+                new ObjectParameter("MALOP", mALOP) :
+                new ObjectParameter("MALOP", typeof(string));
+    
+            var tENLOPParameter = tENLOP != null ?
+                new ObjectParameter("TENLOP", tENLOP) :
+                new ObjectParameter("TENLOP", typeof(string));
+    
+            var mAKHOIParameter = mAKHOI != null ?
+                new ObjectParameter("MAKHOI", mAKHOI) :
+                new ObjectParameter("MAKHOI", typeof(string));
+    
+            var mAGVCNParameter = mAGVCN != null ?
+                new ObjectParameter("MAGVCN", mAGVCN) :
+                new ObjectParameter("MAGVCN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_SuaLop", mALOPParameter, tENLOPParameter, mAKHOIParameter, mAGVCNParameter);
+        }
+    
+        public virtual int sp_XoaLop(string mALOP)
+        {
+            var mALOPParameter = mALOP != null ?
+                new ObjectParameter("MALOP", mALOP) :
+                new ObjectParameter("MALOP", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_XoaLop", mALOPParameter);
+        }
     }
 }

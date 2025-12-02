@@ -1,12 +1,94 @@
 ﻿@model IEnumerable<QLTruongCap3.Models.THOIKHOABIEU>
-@{ Layout = "~/Views/Shared/_LayoutTeacher.cshtml"; }
-<h2>Lịch Giảng Dạy</h2>
-<table class="table table-striped">
-    <thead><tr><th>Thứ</th><th>Tiết</th><th>Lớp</th><th>Môn</th><th>Phòng</th></tr></thead>
-    <tbody>
-        @foreach (var item in Model)
+@{
+    Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
+    ViewBag.Title = "Thời Khóa Biểu";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary"><i class="fas fa-calendar-alt me-2"></i>LỊCH GIẢNG DẠY</h2>
+    </div>
+
+    <div class="card p-3 mb-4 bg-light shadow-sm">
+        @using (Html.BeginForm("ThoiKhoaBieu", "Teacher", FormMethod.Get, new { @class = "row g-3 align-items-end" }))
         {
-            <tr><td>Thứ @item.THU</td><td>@item.TIET</td><td>@item.MALOP</td><td>@item.MAMH</td><td>@item.MAPHONG</td></tr>
+            <div class="col-md-3">
+                <label class="fw-bold">Năm học:</label>
+                @Html.DropDownList("maNam", (SelectList)ViewBag.MaNam, new { @class = "form-select", onchange = "this.form.submit()" })
+            </div>
+
+            <div class="col-md-2">
+                <label class="fw-bold">Học kỳ:</label>
+                @Html.DropDownList("maHK", (SelectList)ViewBag.MaHK, new { @class = "form-select", onchange = "this.form.submit()" })
+            </div>
+
+            <div class="col-md-3">
+                <label class="fw-bold">Xem theo ngày:</label>
+                <div class="input-group">
+                    <input type="date" name="ngayXem" class="form-control" value="@ViewBag.NgayXem" />
+                    <a href="@Url.Action("ThoiKhoaBieu", new { maNam = Request["maNam"], maHK = Request["maHK"] })" class="btn btn-outline-secondary" title="Xem cả tuần">
+                        <i class="fas fa-sync"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-filter"></i> Lọc</button>
+            </div>
+
+            <div class="col-md-2 text-end">
+                <span class="badge bg-info fs-6">Đang xem: @ViewBag.ThuHienTai</span>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="bg-primary text-white text-center">
+                <tr>
+                    <th style="width: 10%">Thứ</th>
+                    <th style="width: 10%">Tiết</th>
+                    <th style="width: 15%">Lớp</th>
+                    <th style="width: 25%">Môn học</th>
+                    <th style="width: 15%">Phòng</th>
+                    <th style="width: 25%">Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center fw-bold">
+                                @(item.THU == 8 ? "Chủ nhật" : "Thứ " + item.THU)
+                            </td>
+                            <td class="text-center"><span class="badge bg-secondary rounded-pill">Tiết @item.TIET</span></td>
+
+                            <td class="text-center fw-bold text-danger">@item.LOP.TENLOP</td>
+                            <td>
+                                <i class="fas fa-book-open text-primary me-2"></i>@item.MONHOC.TENMH
+                            </td>
+                            <td class="text-center">
+                                @(item.PHONGHOC != null ? item.PHONGHOC.TENPHONG : "Chưa xếp")
+                            </td>
+                            <td class="text-muted small">
+                                <em>@item.NAMHOC.TENNAM - @item.HOCKY.TENHK</em>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-5">
+                            <i class="fas fa-coffee fa-3x mb-3 d-block"></i>
+                            <h4>Không có lịch dạy nào!</h4>
+                            <p>Hãy chọn ngày khác hoặc kiểm tra lại Năm học/Học kỳ.</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
