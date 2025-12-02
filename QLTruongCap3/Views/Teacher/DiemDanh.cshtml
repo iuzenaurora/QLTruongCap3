@@ -1,23 +1,130 @@
-﻿@model IEnumerable<QLTruongCap3.Models.HOCSINH>
-@{ Layout = "~/Views/Shared/_LayoutTeacher.cshtml"; }
-<h2>Điểm danh lớp chủ nhiệm: @ViewBag.TenLop</h2>
-@if (ViewBag.Error != null)
-{<div class="alert alert-warning">@ViewBag.Error</div> }
-else
-{
-<table class="table">
-    <thead><tr><th>Mã HS</th><th>Họ tên</th><th>Trạng thái</th><th>Ghi chú</th></tr></thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.MAHS</td>
-                <td>@item.HO @item.TEN</td>
-                <td><select class="form-select"><option>Có mặt</option><option>Vắng có phép</option><option>Vắng không phép</option></select></td>
-                <td><input type="text" class="form-control" /></td>
-            </tr>
-        }
-    </tbody>
-</table>
-<button class="btn btn-primary">Lưu Điểm Danh</button>
+﻿@model List<QLTruongCap3.Models.HOCSINH>
+@{
+    Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
+    ViewBag.Title = "Điểm Danh";
 }
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary m-0"><i class="fas fa-user-check"></i> Điểm danh lớp: @ViewBag.TenLop</h2>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> @ViewBag.Error</div>
+    }
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success"><i class="fas fa-check-circle"></i> @TempData["Message"]</div>
+    }
+
+    @using (Html.BeginForm("LuuDiemDanh", "Teacher", FormMethod.Post))
+    {
+        <div class="card p-3 mb-4 bg-light shadow-sm">
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-3">
+                    <label class="fw-bold">Năm học:</label>
+                    @Html.DropDownList("maNam", (SelectList)ViewBag.MaNam, new
+                    {
+                        @class = "form-select",
+                        @id = "ddlNamHoc",
+                        @onchange = "reloadPage()" // Gọi hàm JS khi đổi
+                    })
+                </div>
+
+                <div class="col-md-2">
+                    <label class="fw-bold">Học kỳ:</label>
+                    @Html.DropDownList("maHK", (SelectList)ViewBag.MaHK, new
+                    {
+                        @class = "form-select",
+                        @id = "ddlHocKy",
+                        @onchange = "reloadPage()" // Gọi hàm JS khi đổi
+                    })
+                </div>
+
+                <div class="col-md-3">
+                    <label class="fw-bold">Ngày điểm danh:</label>
+                    <input type="date" name="ngayDD" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                </div>
+
+                <div class="col-md-2">
+                    <label class="fw-bold">Tiết:</label>
+                    <select name="tiet" class="form-select">
+                        @for (int i = 1; i <= 10; i++)
+                        {
+                            <option value="@i">Tiết @i</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">
+                        <i class="fas fa-save"></i> LƯU
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="bg-primary text-white text-center">
+                    <tr>
+                        <th style="width: 5%">STT</th>
+                        <th style="width: 15%">Mã HS</th>
+                        <th style="width: 25%">Họ và Tên</th>
+                        <th style="width: 20%">Trạng thái</th>
+                        <th>Ghi chú (Lý do vắng)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td class="text-center">@(i + 1)</td>
+                                <td class="text-center">
+                                    @Model[i].MAHS
+                                    <input type="hidden" name="listDD[@i].MAHS" value="@Model[i].MAHS" />
+                                </td>
+                                <td class="fw-bold">@Model[i].HO @Model[i].TEN</td>
+                                <td>
+                                    <select name="listDD[@i].TRANGTHAI" class="form-select form-select-sm">
+                                        <option value="Có mặt" selected>Có mặt</option>
+                                        <option value="Vắng có phép">Vắng có phép</option>
+                                        <option value="Vắng không phép">Vắng không phép</option>
+                                        <option value="Đi muộn">Đi muộn</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="listDD[@i].GHICHU" class="form-control form-select-sm" placeholder="Nhập lý do..." />
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                <i>Không tìm thấy học sinh nào trong lớp chủ nhiệm năm học này.</i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script>
+    function reloadPage() {
+        var nam = document.getElementById("ddlNamHoc").value;
+        var hk = document.getElementById("ddlHocKy").value;
+
+        // Chuyển hướng trình duyệt về Action DiemDanh (GET) với tham số mới
+        // Url.Action sẽ tạo ra đường dẫn kiểu: /Teacher/DiemDanh
+        var url = '@Url.Action("DiemDanh", "Teacher")' + '?maNam=' + nam + '&maHK=' + hk;
+        window.location.href = url;
+    }
+</script>
