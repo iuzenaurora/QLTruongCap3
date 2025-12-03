@@ -1,0 +1,116 @@
+﻿@model IEnumerable<QLTruongCap3.Models.GIAOVIEN>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-primary fw-bold mb-4">👩‍🏫 Quản Lý Giáo Viên</h2>
+
+<!-- Hiển thị thông báo -->
+@if (TempData["Message"] != null)
+{
+    <div id="alertMessage" class="alert alert-success text-center fw-bold shadow-sm">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div id="alertError" class="alert alert-danger text-center fw-bold shadow-sm">
+        @TempData["Error"]
+    </div>
+}
+
+<!-- Nút thêm giáo viên -->
+<div class="text-end mb-3">
+    <a href="@Url.Action("ThemGiaoVien", "Admin")" class="btn btn-success shadow-sm">
+        <i class="bi bi-plus-circle"></i> Thêm Giáo Viên
+    </a>
+</div>
+
+<!-- Form tìm kiếm cân bằng input -->
+@using (Html.BeginForm("QuanLyGiaoVien", "Admin", FormMethod.Get, new { @class = "row g-3 mb-4" }))
+{
+    <div class="col-md-3">
+        @Html.DropDownList("searchMaGV", (IEnumerable<SelectListItem>)ViewBag.MaGVList, "-- Chọn Mã GV --", new { @class = "form-select shadow-sm" })
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="searchTenGV" value="@ViewBag.CurrentFilterTen" class="form-control shadow-sm" placeholder="Nhập tên giáo viên..." />
+    </div>
+    <div class="col-md-2">
+        @Html.DropDownList("searchChuyenMon", (IEnumerable<SelectListItem>)ViewBag.ChuyenMonList, "-- Chuyên môn --", new { @class = "form-select shadow-sm" })
+    </div>
+    <div class="col-md-2">
+        @Html.DropDownList("searchTrangThai", (IEnumerable<SelectListItem>)ViewBag.TrangThaiList, "-- Trạng thái --", new { @class = "form-select shadow-sm" })
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100 shadow-sm">
+            <i class="bi bi-search"></i> Tìm kiếm
+        </button>
+    </div>
+}
+
+<!-- Bảng danh sách giáo viên -->
+<div class="table-responsive">
+    <table class="table table-hover table-striped align-middle shadow-sm">
+        <thead class="table-primary text-center">
+            <tr>
+                <th>Mã GV</th>
+                <th>Họ Tên</th>
+                <th>Ngày Sinh</th>
+                <th>Giới Tính</th>
+                <th>Chuyên Môn</th>
+                <th>Trạng Thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold">@item.MAGV.Trim()</td>
+                        <td>@item.HOTEN</td>
+                        <td class="text-center">@string.Format("{0:dd/MM/yyyy}", item.NGAYSINH)</td>
+                        <td class="text-center">@item.GIOITINH</td>
+                        <td class="text-center">@item.CHUYENMON</td>
+                        <td class="text-center">
+                            @if (item.TRANGTHAI == "Đang làm")
+                            {<span class="badge bg-success">@item.TRANGTHAI</span> }
+                        else if (item.TRANGTHAI == "Nghỉ hưu")
+                        { <span class="badge bg-secondary">@item.TRANGTHAI</span> }
+                    else
+                    { <span class="badge bg-warning text-dark">@item.TRANGTHAI</span>}
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("SuaGiaoVien", "Admin", new { id = item.MAGV.Trim() })"
+                               class="btn btn-sm btn-warning me-1 shadow-sm">
+                                <i class="bi bi-pencil-square"></i> Sửa
+                            </a>
+                            <a href="@Url.Action("XoaGiaoVien", "Admin", new { id = item.MAGV.Trim() })"
+                               class="btn btn-sm btn-danger shadow-sm">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-3">Không tìm thấy kết quả phù hợp.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    setTimeout(function () {
+        var msg = document.getElementById("alertMessage");
+        var err = document.getElementById("alertError");
+        if (msg) msg.style.display = "none";
+        if (err) err.style.display = "none";
+    }, 5000);
+</script>

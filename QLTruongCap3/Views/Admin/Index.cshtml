@@ -1,17 +1,244 @@
-﻿@model IEnumerable<QLTruongCap3.Models.SP_ThongKe_TrangChu_Result>
-@{ Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
+﻿@model QLTruongC3.Models.AdminDashboardViewModel
 
-<h2 class="text-center text-danger mb-4">THỐNG KÊ HỆ THỐNG</h2>
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3 text-center">
-                <div class="card-header"><h4>@item.ChiTieu</h4></div>
-                <div class="card-body">
-                    <h1 class="display-4">@item.SoLuong</h1>
+@{
+    ViewBag.Title = "Trang Chủ Admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid fade-in">
+    <!-- Tiêu đề -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-primary fw-bold mb-0">DASHBOARD HỆ THỐNG</h2>
+            <p class="text-muted small mb-0">Năm học: @Model.CurrentYear | @Model.CurrentSemester</p>
+        </div>
+        <button class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-clockwise"></i> Cập nhật
+        </button>
+    </div>
+
+    <!-- 1. PHẦN THẺ THỐNG KÊ (CARDS) -->
+    <div class="row g-4 mb-5">
+        <!-- Thẻ Học Sinh -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card shadow stat-card h-100 border-0 position-relative">
+                <a href="@Url.Action("QuanLyHocSinh", "Admin")" class="stretched-link"></a>
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="icon-circle me-4" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted text-uppercase fw-bold mb-1">Tổng Học Sinh</h6>
+                        <h2 class="text-primary fw-bold mb-0">@Model.TongHocSinh</h2>
+                    </div>
                 </div>
             </div>
         </div>
-    }
+
+        <!-- Thẻ Giáo Viên -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card shadow stat-card h-100 border-0 position-relative">
+                <a href="@Url.Action("QuanLyGiaoVien", "Admin")" class="stretched-link"></a>
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="icon-circle me-4" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
+                        <i class="bi bi-person-workspace"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted text-uppercase fw-bold mb-1">Tổng Giáo Viên</h6>
+                        <h2 class="text-primary fw-bold mb-0">@Model.TongGiaoVien</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thẻ Lớp Học -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card shadow stat-card h-100 border-0 position-relative">
+                <a href="@Url.Action("QuanLyLop", "Admin")" class="stretched-link"></a>
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="icon-circle me-4" style="background: linear-gradient(135deg, #fbc2eb, #a6c1ee);">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted text-uppercase fw-bold mb-1">Tổng Lớp Học</h6>
+                        <h2 class="text-primary fw-bold mb-0">@Model.TongLopHoc</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. PHẦN BIỂU ĐỒ (CHARTS) -->
+    <div class="row g-4">
+        <!-- Biểu đồ Sĩ số theo khối -->
+        <div class="col-lg-6">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold text-primary">
+                        <i class="bi bi-bar-chart-line me-2"></i>Thống Kê Sĩ Số Theo Khối
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartSiSo"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biểu đồ Học lực -->
+        <div class="col-lg-6">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold text-primary">
+                        <i class="bi bi-pie-chart-fill me-2"></i>Tỷ Lệ Học Lực (@Model.CurrentSemester)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartHocLuc"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- CSS Riêng cho trang này -->
+<style>
+    .stat-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.8rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<!-- Import Chart.js và Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script Vẽ Biểu Đồ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // --- 1. DỮ LIỆU TỪ CONTROLLER ---
+        // Sử dụng Html.Raw để không bị mã hóa ký tự đặc biệt trong JSON
+        const labelsKhoi = @Html.Raw(Model.ChartLabelsKhoi ?? "[]");
+        const dataSiSo = @Html.Raw(Model.ChartDataSiSo ?? "[]");
+
+        const dataGioi = @Html.Raw(Model.ChartDataHocLucGioi ?? "[]");
+        const dataKha = @Html.Raw(Model.ChartDataHocLucKha ?? "[]");
+        const dataTB = @Html.Raw(Model.ChartDataHocLucTB ?? "[]");
+        const dataYeu = @Html.Raw(Model.ChartDataHocLucYeu ?? "[]");
+
+        // --- 2. VẼ BIỂU ĐỒ SĨ SỐ (BAR CHART) ---
+        const ctxSiSo = document.getElementById('chartSiSo').getContext('2d');
+        new Chart(ctxSiSo, {
+            type: 'bar',
+            data: {
+                labels: labelsKhoi,
+                datasets: [{
+                    label: 'Sĩ số học sinh',
+                    data: dataSiSo,
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 206, 86, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Số lượng (HS)' }
+                    }
+                }
+            }
+        });
+
+        // --- 3. VẼ BIỂU ĐỒ HỌC LỰC (STACKED BAR HOẶC GROUPED BAR) ---
+        const ctxHocLuc = document.getElementById('chartHocLuc').getContext('2d');
+        new Chart(ctxHocLuc, {
+            type: 'bar',
+            data: {
+                labels: labelsKhoi,
+                datasets: [
+                    {
+                        label: 'Giỏi',
+                        data: dataGioi,
+                        backgroundColor: '#28a745', // Xanh lá
+                    },
+                    {
+                        label: 'Khá',
+                        data: dataKha,
+                        backgroundColor: '#17a2b8', // Xanh dương nhạt
+                    },
+                    {
+                        label: 'Trung Bình',
+                        data: dataTB,
+                        backgroundColor: '#ffc107', // Vàng
+                    },
+                    {
+                        label: 'Yếu/Kém',
+                        data: dataYeu,
+                        backgroundColor: '#dc3545', // Đỏ
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    x: {
+                        stacked: false // Đặt true nếu muốn biểu đồ chồng lên nhau
+                    },
+                    y: {
+                        beginAtZero: true,
+                        stacked: false
+                    }
+                }
+            }
+        });
+    });
+</script>

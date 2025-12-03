@@ -144,6 +144,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminDashboardViewModel.cs" />
     <Compile Include="Models\DIEM.cs">
       <DependentUpon>QLTruongC3.tt</DependentUpon>
     </Compile>
@@ -355,6 +356,26 @@
     <Content Include="Views\Student\ThoiKhoaBieu.cshtml" />
     <Content Include="Views\Admin\ThemLop.cshtml" />
     <Content Include="Views\Admin\SuaLop.cshtml" />
+    <Content Include="Views\Admin\QuanLyGiaoVien.cshtml" />
+    <Content Include="Views\Admin\ThemGiaoVien.cshtml" />
+    <Content Include="Views\Admin\SuaGiaoVien.cshtml" />
+    <Content Include="Views\Admin\XoaGiaoVien.cshtml" />
+    <Content Include="Views\Admin\ThemHocSinh.cshtml" />
+    <Content Include="Views\Admin\QuanLyHocSinh.cshtml" />
+    <Content Include="Views\Admin\SuaHocSinh.cshtml" />
+    <Content Include="Views\Admin\XoaHocSinh.cshtml" />
+    <Content Include="Views\Admin\QuanLyMonHoc.cshtml" />
+    <Content Include="Views\Admin\ThemMonHoc.cshtml" />
+    <Content Include="Views\Admin\SuaMonHoc.cshtml" />
+    <Content Include="Views\Admin\XoaMonHoc.cshtml" />
+    <Content Include="Views\Admin\QuanLyTaiKhoan.cshtml" />
+    <Content Include="Views\Admin\ThemTaiKhoan.cshtml" />
+    <Content Include="Views\Admin\SuaTaiKhoan.cshtml" />
+    <Content Include="Views\Admin\XoaTaiKhoan.cshtml" />
+    <Content Include="Views\Admin\QuanLyTKB.cshtml" />
+    <Content Include="Views\Admin\ThemTKB.cshtml" />
+    <Content Include="Views\Admin\SuaTKB.cshtml" />
+    <Content Include="Views\Admin\XoaTKB.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

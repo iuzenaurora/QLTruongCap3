@@ -1,0 +1,139 @@
+﻿@model IEnumerable<QLTruongCap3.Models.TAIKHOAN>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-primary fw-bold mb-4">🔐 Quản Lý Tài Khoản</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div id="alertMessage" class="alert alert-success text-center fw-bold shadow-sm">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div id="alertError" class="alert alert-danger text-center fw-bold shadow-sm">
+        @TempData["Error"]
+    </div>
+}
+
+<!-- Nút thêm -->
+<div class="d-flex justify-content-end mb-3">
+    <a href="@Url.Action("ThemTaiKhoan", "Admin")" class="btn btn-success shadow-sm fw-bold">
+        <i class="bi bi-person-plus-fill"></i> Thêm Tài Khoản
+    </a>
+</div>
+
+<!-- Form tìm kiếm: Đơn giản, Ngay ngắn -->
+@using (Html.BeginForm("QuanLyTaiKhoan", "Admin", FormMethod.Get, new { @class = "row g-3 mb-4 align-items-end justify-content-center" }))
+{
+    <!-- Tên Đăng Nhập: Col-3 -->
+    <div class="col-md-3">
+        <label class="form-label fw-bold small text-secondary ps-1">Tên Đăng Nhập</label>
+        <input type="text" name="searchTenDN" value="@ViewBag.CurrentFilterTen" class="form-control shadow-sm" placeholder="Nhập username..." />
+    </div>
+
+    <!-- Loại TK: Col-3 -->
+    <div class="col-md-3">
+        <label class="form-label fw-bold small text-secondary ps-1">Loại Tài Khoản</label>
+        @Html.DropDownList("searchLoai", (IEnumerable<SelectListItem>)ViewBag.LoaiList, "-- Tất cả --", new { @class = "form-select shadow-sm" })
+    </div>
+
+    <!-- Tình trạng: Col-3 -->
+    <div class="col-md-3">
+        <label class="form-label fw-bold small text-secondary ps-1">Trạng Thái</label>
+        @Html.DropDownList("searchTinhTrang", (IEnumerable<SelectListItem>)ViewBag.TinhTrangList, "-- Tất cả --", new { @class = "form-select shadow-sm" })
+    </div>
+
+    <!-- Nút tìm kiếm: Col-2 -->
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100 shadow-sm fw-bold">
+            <i class="bi bi-search"></i> Tìm kiếm
+        </button>
+    </div>
+}
+
+<!-- Bảng tài khoản -->
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-primary text-center">
+            <tr>
+                <th class="py-3">Tên Đăng Nhập</th>
+                <th class="py-3">Loại</th>
+                <th class="py-3">Chủ Sở Hữu</th>
+                <th class="py-3">Trạng Thái</th>
+                <th class="py-3">Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var tk in Model)
+                {
+                    <tr>
+                        <td class="fw-bold text-center text-primary">@tk.USERNAME</td>
+                        <td class="text-center">
+                            @if (tk.LOAI == "Admin")
+                            {<span class="badge bg-danger">ADMIN</span> }
+                            else if (tk.LOAI == "GV")
+                            { <span class="badge bg-success">GIÁO VIÊN</span> }
+                            else
+                            { <span class="badge bg-info text-dark">HỌC SINH</span>}
+                        </td>
+                        <td>
+                            @if (tk.LOAI == "GV" && tk.GIAOVIEN != null)
+                            {
+                                <i class="bi bi-person-badge text-success me-1"></i> @tk.GIAOVIEN.HOTEN
+                            }
+                            else if (tk.LOAI == "HS" && tk.HOCSINH != null)
+                            {
+                                <i class="bi bi-backpack2 text-info me-1"></i> @tk.HOCSINH.HO @tk.HOCSINH.TEN
+                            }
+                            else
+                            {
+                                <span class="text-muted fst-italic">-- Hệ thống --</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (tk.TINHTRANG == "Hoạt động")
+                            {<span class="badge bg-success rounded-pill px-3">Hoạt động</span> }
+                            else
+                            { <span class="badge bg-secondary rounded-pill px-3">@tk.TINHTRANG</span>}
+                        </td>
+
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="@Url.Action("SuaTaiKhoan", "Admin", new { id = tk.USERNAME })"
+                                   class="btn btn-sm btn-outline-warning" title="Sửa">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="@Url.Action("XoaTaiKhoan", "Admin", new { id = tk.USERNAME })"
+                                   class="btn btn-sm btn-outline-danger" title="Xóa">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Không tìm thấy tài khoản phù hợp.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    setTimeout(function () {
+        var msg = document.getElementById("alertMessage");
+        var err = document.getElementById("alertError");
+        if (msg) msg.style.display = "none";
+        if (err) err.style.display = "none";
+    }, 5000);
+</script>

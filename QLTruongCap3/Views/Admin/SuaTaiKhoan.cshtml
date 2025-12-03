@@ -1,0 +1,77 @@
+﻿@model QLTruongCap3.Models.TAIKHOAN
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-warning fw-bold mb-4">✏️ Cập Nhật Tài Khoản</h2>
+
+@using (Html.BeginForm("SuaTaiKhoan", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.USERNAME)
+
+    <div class="row g-3 justify-content-center">
+        <!-- Username (Readonly) -->
+        <div class="col-md-6">
+            <label class="form-label fw-bold">Tên Đăng Nhập</label>
+            <input type="text" class="form-control fw-bold bg-light" value="@Model.USERNAME" readonly />
+        </div>
+
+        <!-- Password (Ẩn giá trị cũ) -->
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.PASSWORD, "Mật Khẩu Mới", new { @class = "form-label fw-bold" })
+            <!-- value = "" để không hiện mật khẩu cũ. Bỏ required để cho phép giữ nguyên -->
+            @Html.PasswordFor(m => m.PASSWORD, new { @class = "form-control", @placeholder = "Để trống nếu không đổi mật khẩu", value = "" })
+        </div>
+
+        <!-- Loại TK & Trạng Thái -->
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.LOAI, "Loại Tài Khoản", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.LOAI,
+                new SelectList(new[] { "Admin", "GV", "HS" }, Model.LOAI),
+                new { @class = "form-select", id = "loaiTaiKhoan" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.TINHTRANG, "Trạng Thái", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.TINHTRANG,
+                new SelectList(new[] { "Hoạt động", "Khóa", "Tạm khóa" }, Model.TINHTRANG),
+                new { @class = "form-select" })
+        </div>
+
+        <!-- Mã GV / HS -->
+        <div class="col-md-6" id="groupMaGV" style="display: @(Model.LOAI == "GV" ? "block" : "none")">
+            @Html.LabelFor(m => m.MAGV, "Mã Giáo Viên", new { @class = "form-label fw-bold text-success" })
+            @Html.TextBoxFor(m => m.MAGV, new { @class = "form-control" })
+        </div>
+        <div class="col-md-6" id="groupMaHS" style="display: @(Model.LOAI == "HS" ? "block" : "none")">
+            @Html.LabelFor(m => m.MAHS, "Mã Học Sinh", new { @class = "form-label fw-bold text-info" })
+            @Html.TextBoxFor(m => m.MAHS, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-warning px-4 fw-bold">
+            <i class="bi bi-pencil-square"></i> Cập nhật
+        </button>
+        <a href="@Url.Action("QuanLyTaiKhoan", "Admin")" class="btn btn-secondary ms-2 fw-bold">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}
+
+<script>
+    document.getElementById("loaiTaiKhoan").addEventListener("change", function () {
+        var loai = this.value;
+        var groupGV = document.getElementById("groupMaGV");
+        var groupHS = document.getElementById("groupMaHS");
+
+        groupGV.style.display = "none";
+        groupHS.style.display = "none";
+
+        if (loai === "GV") {
+            groupGV.style.display = "block";
+        } else if (loai === "HS") {
+            groupHS.style.display = "block";
+        }
+    });
+</script>

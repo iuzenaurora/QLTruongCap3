@@ -1,0 +1,68 @@
+﻿@model QLTruongCap3.Models.THOIKHOABIEU
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-success fw-bold mb-4">➕ Xếp Thời Khóa Biểu Mới</h2>
+
+@using (Html.BeginForm("ThemTKB", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger text-center mb-3 fw-bold" })
+
+    <!-- Nhóm 1: Chọn thời gian áp dụng (Căn giữa) -->
+    <div class="row g-3 justify-content-center mb-4">
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.MANAM, "Năm Học", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MANAM, (IEnumerable<SelectListItem>)ViewBag.MANAM, new { @class = "form-select shadow-sm" })
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.MAHK, "Học Kỳ", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAHK, (IEnumerable<SelectListItem>)ViewBag.MAHK, new { @class = "form-select shadow-sm" })
+        </div>
+    </div>
+
+    <hr class="w-50 mx-auto text-muted mb-4" />
+
+    <!-- Nhóm 2: Thông tin chi tiết (Grid 3 cột) -->
+    <div class="row g-3 justify-content-center">
+        <!-- Lớp - Thứ - Tiết -->
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.MALOP, "Lớp Học", new { @class = "form-label fw-bold text-primary" })
+            @Html.DropDownListFor(m => m.MALOP, (IEnumerable<SelectListItem>)ViewBag.MALOP, "Chọn Lớp", new { @class = "form-select", required = "required" })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.THU, "Thứ", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.THU, (IEnumerable<SelectListItem>)ViewBag.THU, new { @class = "form-select" })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.TIET, "Tiết", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.TIET, (IEnumerable<SelectListItem>)ViewBag.TIET, new { @class = "form-select" })
+        </div>
+
+        <!-- Môn - GV - Phòng -->
+        <div class="w-100"></div> <!-- Ngắt dòng -->
+
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.MAMH, "Môn Học", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAMH, (IEnumerable<SelectListItem>)ViewBag.MAMH, "Chọn Môn", new { @class = "form-select", required = "required" })
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.MAGV, "Giáo Viên", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAGV, (IEnumerable<SelectListItem>)ViewBag.MAGV, "Chọn Giáo Viên", new { @class = "form-select", required = "required" })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.MAPHONG, "Phòng Học", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAPHONG, (IEnumerable<SelectListItem>)ViewBag.MAPHONG, "Chọn Phòng", new { @class = "form-select", required = "required" })
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <button type="submit" class="btn btn-success px-5 py-2 fw-bold shadow-sm">
+            <i class="bi bi-save"></i> Lưu TKB
+        </button>
+        <a href="@Url.Action("QuanLyTKB", "Admin")" class="btn btn-secondary ms-2 py-2 fw-bold shadow-sm">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}

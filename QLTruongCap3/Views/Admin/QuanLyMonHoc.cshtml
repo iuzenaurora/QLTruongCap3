@@ -1,0 +1,113 @@
+﻿@model IEnumerable<QLTruongCap3.Models.MONHOC>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-primary fw-bold mb-4">📚 Quản Lý Môn Học</h2>
+
+<!-- Hiển thị thông báo -->
+@if (TempData["Message"] != null)
+{
+    <div id="alertMessage" class="alert alert-success text-center fw-bold shadow-sm">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div id="alertError" class="alert alert-danger text-center fw-bold shadow-sm">
+        @TempData["Error"]
+    </div>
+}
+
+<!-- Nút thêm môn học -->
+<div class="d-flex justify-content-end mb-3">
+    <a href="@Url.Action("ThemMonHoc", "Admin")" class="btn btn-success shadow-sm fw-bold">
+        <i class="bi bi-plus-circle"></i> Thêm Môn Học Mới
+    </a>
+</div>
+
+<!-- Form tìm kiếm: Đơn giản, Ngay ngắn -->
+@using (Html.BeginForm("QuanLyMonHoc", "Admin", FormMethod.Get, new { @class = "row g-3 mb-4 align-items-end justify-content-center" }))
+{
+    <!-- Mã MH: Col-3 -->
+    <div class="col-md-3">
+        <label class="form-label fw-bold small text-secondary ps-1">Mã Môn Học</label>
+        <input type="text" name="searchMaMH" value="@ViewBag.CurrentFilterMa" class="form-control shadow-sm" placeholder="Nhập mã môn..." />
+    </div>
+
+    <!-- Tên MH: Col-4 -->
+    <div class="col-md-4">
+        <label class="form-label fw-bold small text-secondary ps-1">Tên Môn Học</label>
+        <input type="text" name="searchTenMH" value="@ViewBag.CurrentFilterTen" class="form-control shadow-sm" placeholder="Nhập tên môn..." />
+    </div>
+
+    <!-- Nút tìm kiếm: Col-2 -->
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100 shadow-sm fw-bold">
+            <i class="bi bi-search"></i> Tìm kiếm
+        </button>
+    </div>
+}
+
+<!-- Bảng danh sách môn học -->
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-primary text-center">
+            <tr>
+                <th class="py-3">Mã MH</th>
+                <th class="py-3">Tên Môn Học</th>
+                <th class="py-3">Hệ Số</th>
+                <th class="py-3">Số Tiết</th>
+                <th class="py-3">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var mh in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold text-primary">@mh.MAMH.Trim()</td>
+                        <td class="fw-bold">@mh.TENMH</td>
+                        <td class="text-center">
+                            <span class="badge bg-info text-dark">x @mh.HESO</span>
+                        </td>
+                        <td class="text-center">@mh.SOTIET</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="@Url.Action("SuaMonHoc", "Admin", new { id = mh.MAMH.Trim() })"
+                                   class="btn btn-sm btn-outline-warning" title="Sửa">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="@Url.Action("XoaMonHoc", "Admin", new { id = mh.MAMH.Trim() })"
+                                   class="btn btn-sm btn-outline-danger" title="Xóa">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-5">
+                        <i class="bi bi-search display-6 d-block mb-3 opacity-50"></i>
+                        <h5>Không tìm thấy môn học phù hợp</h5>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    setTimeout(function () {
+        var msg = document.getElementById("alertMessage");
+        var err = document.getElementById("alertError");
+        if (msg) msg.style.display = "none";
+        if (err) err.style.display = "none";
+    }, 5000);
+</script>

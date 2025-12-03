@@ -1,0 +1,77 @@
+﻿@model QLTruongCap3.Models.TAIKHOAN
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-success fw-bold mb-4">➕ Thêm Tài Khoản Mới</h2>
+
+@using (Html.BeginForm("ThemTaiKhoan", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row g-3 justify-content-center">
+        <!-- Username & Password -->
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.USERNAME, "Tên Đăng Nhập (*)", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.USERNAME, new { @class = "form-control", @required = "required", @placeholder = "VD: admin123" })
+            @Html.ValidationMessageFor(m => m.USERNAME, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.PASSWORD, "Mật Khẩu (*)", new { @class = "form-label fw-bold" })
+            @Html.PasswordFor(m => m.PASSWORD, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.PASSWORD, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Loại TK & Trạng Thái -->
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.LOAI, "Loại Tài Khoản", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.LOAI,
+                new SelectList(new[] { "Admin", "GV", "HS" }),
+                "Chọn loại tài khoản",
+                new { @class = "form-select", id = "loaiTaiKhoan" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.TINHTRANG, "Trạng Thái", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.TINHTRANG,
+                new SelectList(new[] { "Hoạt động", "Khóa", "Tạm khóa" }),
+                new { @class = "form-select" })
+        </div>
+
+        <!-- Mã GV / HS (Ẩn hiện bằng JS) -->
+        <div class="col-md-6" id="groupMaGV" style="display:none;">
+            @Html.LabelFor(m => m.MAGV, "Mã Giáo Viên Liên Kết", new { @class = "form-label fw-bold text-success" })
+            @Html.TextBoxFor(m => m.MAGV, new { @class = "form-control", @placeholder = "Nhập Mã GV..." })
+        </div>
+        <div class="col-md-6" id="groupMaHS" style="display:none;">
+            @Html.LabelFor(m => m.MAHS, "Mã Học Sinh Liên Kết", new { @class = "form-label fw-bold text-info" })
+            @Html.TextBoxFor(m => m.MAHS, new { @class = "form-control", @placeholder = "Nhập Mã HS..." })
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-success px-4 fw-bold">
+            <i class="bi bi-save"></i> Lưu Tài Khoản
+        </button>
+        <a href="@Url.Action("QuanLyTaiKhoan", "Admin")" class="btn btn-secondary ms-2 fw-bold">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}
+
+<script>
+    document.getElementById("loaiTaiKhoan").addEventListener("change", function () {
+        var loai = this.value;
+        var groupGV = document.getElementById("groupMaGV");
+        var groupHS = document.getElementById("groupMaHS");
+
+        groupGV.style.display = "none";
+        groupHS.style.display = "none";
+
+        if (loai === "GV") {
+            groupGV.style.display = "block";
+        } else if (loai === "HS") {
+            groupHS.style.display = "block";
+        }
+    });
+</script>

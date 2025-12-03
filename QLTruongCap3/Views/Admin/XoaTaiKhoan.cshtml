@@ -1,0 +1,61 @@
+﻿@model QLTruongCap3.Models.TAIKHOAN
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-danger fw-bold mb-4">🗑️ Xóa Tài Khoản</h2>
+
+<div class="alert alert-warning shadow-sm text-center">
+    <strong>⚠️ Bạn có chắc chắn muốn xóa tài khoản này không?</strong>
+    <br />
+    <span class="text-muted">Hành động này không thể hoàn tác.</span>
+</div>
+
+<div class="table-responsive" style="max-width: 600px; margin: 0 auto;">
+    <table class="table table-bordered shadow-sm bg-white">
+        <tr>
+            <th class="bg-light" style="width: 40%">Tên Đăng Nhập</th>
+            <td class="fw-bold text-danger">@Model.USERNAME</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Loại Tài Khoản</th>
+            <td class="fw-bold">@Model.LOAI</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Mã Giáo Viên</th>
+            <td>@(Model.MAGV ?? "--")</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Mã Học Sinh</th>
+            <td>@(Model.MAHS ?? "--")</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Trạng Thái</th>
+            <td>
+                @if (Model.TINHTRANG == "Hoạt động")
+                {<span class="badge bg-success">Hoạt động</span> }
+                else
+                { <span class="badge bg-secondary">@Model.TINHTRANG</span>}
+            </td>
+        </tr>
+        <tr>
+            <th class="bg-light">Ngày Tạo</th>
+            <td>@string.Format("{0:dd/MM/yyyy}", Model.NGAYTAO)</td>
+        </tr>
+    </table>
+</div>
+
+@using (Html.BeginForm("XoaTaiKhoan", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.USERNAME)
+
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-danger px-4 shadow-sm fw-bold">
+            <i class="bi bi-trash"></i> Xác nhận xóa
+        </button>
+        <a href="@Url.Action("QuanLyTaiKhoan", "Admin")" class="btn btn-secondary ms-2 shadow-sm fw-bold">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}

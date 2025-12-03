@@ -706,7 +706,7 @@ warning 6002: The table/view 'QL_TRUONGC3.dbo.VW_HS_TrangChu' does not have a pr
             <CollectionType>
               <RowType>
                 <Property Name="TENKHOI" Type="nvarchar" MaxLength="20" Nullable="false" />
-                <Property Name="TongSiSo" Type="int" />
+                <Property Name="TongSiSo" Type="int" Nullable="false" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -1259,6 +1259,15 @@ warning 6002: The table/view 'QL_TRUONGC3.dbo.VW_HS_TrangChu' does not have a pr
             <Parameter Name="MALOP" Mode="In" Type="String" />
             <Parameter Name="MAKHOI" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_SuaLop">
+            <Parameter Name="MALOP" Mode="In" Type="String" />
+            <Parameter Name="TENLOP" Mode="In" Type="String" />
+            <Parameter Name="MAKHOI" Mode="In" Type="String" />
+            <Parameter Name="MAGVCN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_XoaLop">
+          <Parameter Name="MALOP" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="DIEM" EntityType="QL_TRUONGC3Model.DIEM" />
           <EntitySet Name="DIEMDANH" EntityType="QL_TRUONGC3Model.DIEMDANH" />
           <EntitySet Name="GIAOVIEN" EntityType="QL_TRUONGC3Model.GIAOVIEN" />
@@ -1398,15 +1407,6 @@ warning 6002: The table/view 'QL_TRUONGC3.dbo.VW_HS_TrangChu' does not have a pr
             <End Role="PHONGHOC" EntitySet="PHONGHOC" />
             <End Role="THOIKHOABIEU" EntitySet="THOIKHOABIEU" />
           </AssociationSet>
-          <FunctionImport Name="sp_SuaLop">
-            <Parameter Name="MALOP" Mode="In" Type="String" />
-            <Parameter Name="TENLOP" Mode="In" Type="String" />
-            <Parameter Name="MAKHOI" Mode="In" Type="String" />
-            <Parameter Name="MAGVCN" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_XoaLop">
-            <Parameter Name="MALOP" Mode="In" Type="String" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="PROC_TKB_TIMKIEM_Result">
           <Property Type="String" Name="MALOP" Nullable="false" MaxLength="5" />
@@ -2434,6 +2434,8 @@ warning 6002: The table/view 'QL_TRUONGC3.dbo.VW_HS_TrangChu' does not have a pr
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SuaLop" FunctionName="QL_TRUONGC3Model.Store.sp_SuaLop" />
+          <FunctionImportMapping FunctionImportName="sp_XoaLop" FunctionName="QL_TRUONGC3Model.Store.sp_XoaLop" />
           <EntitySetMapping Name="DIEM">
             <EntityTypeMapping TypeName="QL_TRUONGC3Model.DIEM">
               <MappingFragment StoreEntitySet="DIEM">
@@ -2736,8 +2738,6 @@ warning 6002: The table/view 'QL_TRUONGC3.dbo.VW_HS_TrangChu' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_SuaLop" FunctionName="QL_TRUONGC3Model.Store.sp_SuaLop" />
-          <FunctionImportMapping FunctionImportName="sp_XoaLop" FunctionName="QL_TRUONGC3Model.Store.sp_XoaLop" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

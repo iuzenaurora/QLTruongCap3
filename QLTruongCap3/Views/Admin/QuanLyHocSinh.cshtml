@@ -1,0 +1,145 @@
+﻿@model IEnumerable<QLTruongCap3.Models.HOCSINH>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-primary fw-bold mb-4">👨‍🎓 Quản Lý Học Sinh</h2>
+
+<!-- Hiển thị thông báo -->
+@if (TempData["Message"] != null)
+{
+    <div id="alertMessage" class="alert alert-success text-center fw-bold shadow-sm">
+        @TempData["Message"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div id="alertError" class="alert alert-danger text-center fw-bold shadow-sm">
+        @TempData["Error"]
+    </div>
+}
+
+<!-- Nút thêm học sinh -->
+<div class="d-flex justify-content-end mb-3">
+    <a href="@Url.Action("ThemHocSinh", "Admin")" class="btn btn-success shadow-sm fw-bold">
+        <i class="bi bi-person-plus-fill"></i> Thêm Học Sinh Mới
+    </a>
+</div>
+
+<!-- Form tìm kiếm: Đơn giản, Ngay ngắn, Hợp lý -->
+@using (Html.BeginForm("QuanLyHocSinh", "Admin", FormMethod.Get, new { @class = "row g-3 mb-4 align-items-end" }))
+{
+    <!-- Mã HS: Cần ít chỗ (Col-2) -->
+    <div class="col-md-2">
+        <label class="form-label fw-bold small text-secondary ps-1">Mã HS</label>
+        <input type="text" name="searchMaHS" value="@ViewBag.CurrentFilterMa" class="form-control shadow-sm" placeholder="Nhập mã..." />
+    </div>
+
+    <!-- Tên: Cần nhiều chỗ nhất (Col-4) -->
+    <div class="col-md-4">
+        <label class="form-label fw-bold small text-secondary ps-1">Họ và Tên</label>
+        <input type="text" name="searchTen" value="@ViewBag.CurrentFilterTen" class="form-control shadow-sm" placeholder="Nhập tên học sinh..." />
+    </div>
+
+    <!-- Giới tính: Cần ít chỗ (Col-2) -->
+    <div class="col-md-2">
+        <label class="form-label fw-bold small text-secondary ps-1">Giới tính</label>
+        @Html.DropDownList("searchGioiTinh", (IEnumerable<SelectListItem>)ViewBag.GioiTinhList, "-- Tất cả --", new { @class = "form-select shadow-sm" })
+    </div>
+
+    <!-- Trạng thái: Cần vừa đủ (Col-2) -->
+    <div class="col-md-2">
+        <label class="form-label fw-bold small text-secondary ps-1">Trạng thái</label>
+        @Html.DropDownList("searchTrangThai", (IEnumerable<SelectListItem>)ViewBag.TrangThaiList, "-- Tất cả --", new { @class = "form-select shadow-sm" })
+    </div>
+
+    <!-- Nút tìm kiếm (Col-2) -->
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100 shadow-sm fw-bold">
+            <i class="bi bi-search"></i> Tìm kiếm
+        </button>
+    </div>
+}
+
+<!-- Bảng danh sách học sinh -->
+<div class="table-responsive bg-white rounded shadow-sm">
+    <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-primary text-center">
+            <tr>
+                <th class="py-3">Mã HS</th>
+                <th class="py-3">Họ Tên</th>
+                <th class="py-3">Ngày Sinh</th>
+                <th class="py-3">Giới Tính</th>
+                <th class="py-3">Điện Thoại</th>
+                <th class="py-3">Dân Tộc</th>
+                <th class="py-3">Trạng Thái</th>
+                <th class="py-3">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold text-primary">@item.MAHS.Trim()</td>
+                        <td>
+                            <div class="fw-bold">@item.HO @item.TEN</div>
+                            <small class="text-muted">@item.EMAIL</small>
+                        </td>
+                        <td class="text-center">@string.Format("{0:dd/MM/yyyy}", item.NGAYSINH)</td>
+                        <td class="text-center">@item.GIOITINH</td>
+                        <td class="text-center">@item.DIENTHOAI</td>
+                        <td class="text-center">@item.DANTOC</td>
+                        <td class="text-center">
+                            @if (item.TRANGTHAI == "Đang học")
+                            {
+                                <span class="badge bg-success">@item.TRANGTHAI</span>
+                            }
+                            else if (item.TRANGTHAI == "Bảo lưu" || item.TRANGTHAI == "Chuyển trường")
+                            {
+                                <span class="badge bg-warning text-dark">@item.TRANGTHAI</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@item.TRANGTHAI</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="@Url.Action("SuaHocSinh", "Admin", new { id = item.MAHS.Trim() })"
+                                   class="btn btn-sm btn-outline-warning" title="Sửa">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="@Url.Action("XoaHocSinh", "Admin", new { id = item.MAHS.Trim() })"
+                                   class="btn btn-sm btn-outline-danger" title="Xóa">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-5">
+                        <i class="bi bi-search display-6 d-block mb-3 opacity-50"></i>
+                        <h5>Không tìm thấy kết quả phù hợp</h5>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    setTimeout(function () {
+        var msg = document.getElementById("alertMessage");
+        var err = document.getElementById("alertError");
+        if (msg) msg.style.display = "none";
+        if (err) err.style.display = "none";
+    }, 5000);
+</script>

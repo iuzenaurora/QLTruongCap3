@@ -1,0 +1,53 @@
+﻿@model QLTruongCap3.Models.THOIKHOABIEU
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-warning fw-bold mb-4">✏️ Điều Chỉnh Tiết Học</h2>
+
+@using (Html.BeginForm("SuaTKB", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+    <!-- Các trường Key phải giữ nguyên để tìm record update -->
+    @Html.HiddenFor(m => m.MALOP)
+    @Html.HiddenFor(m => m.MANAM)
+    @Html.HiddenFor(m => m.MAHK)
+    @Html.HiddenFor(m => m.THU)
+    @Html.HiddenFor(m => m.TIET)
+
+    <!-- Hiển thị thông tin định danh (Dạng Text cho gọn thay vì Input Readonly nhiều ô) -->
+    <div class="alert alert-light border shadow-sm text-center mb-4" style="max-width: 800px; margin: 0 auto;">
+        <span class="text-muted me-2">Đang sửa:</span>
+        <span class="fw-bold text-primary fs-5">@Model.MALOP</span>
+        <span class="mx-2 text-muted">|</span>
+        <span class="fw-bold text-dark">Thứ @Model.THU</span> - <span class="fw-bold text-dark">Tiết @Model.TIET</span>
+        <div class="small text-muted mt-1">(@Model.MAHK - @Model.MANAM)</div>
+    </div>
+
+    <!-- Form nhập liệu căn giữa -->
+    <div class="row g-3 justify-content-center">
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.MAMH, "Môn Học", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAMH, (IEnumerable<SelectListItem>)ViewBag.MAMH, new { @class = "form-select" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.MAGV, "Giáo Viên", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAGV, (IEnumerable<SelectListItem>)ViewBag.MAGV, new { @class = "form-select" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.MAPHONG, "Phòng Học", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.MAPHONG, (IEnumerable<SelectListItem>)ViewBag.MAPHONG, new { @class = "form-select" })
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-warning px-4 fw-bold text-white">
+            <i class="bi bi-pencil-square"></i> Cập Nhật
+        </button>
+        <a href="@Url.Action("QuanLyTKB", "Admin")" class="btn btn-secondary ms-2 fw-bold">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}

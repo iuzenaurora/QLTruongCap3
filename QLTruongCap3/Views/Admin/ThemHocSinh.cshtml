@@ -1,0 +1,89 @@
+﻿@model QLTruongCap3.Models.HOCSINH
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-success fw-bold mb-4">➕ Thêm Học Sinh Mới</h2>
+
+@using (Html.BeginForm("ThemHocSinh", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row g-3">
+        <!-- Mã HS - Họ - Tên -->
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.MAHS, "Mã HS", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.MAHS, new { @class = "form-control", @required = "required", @placeholder = "VD: HS0001" })
+            @Html.ValidationMessageFor(m => m.MAHS, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.HO, "Họ", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.HO, new { @class = "form-control", @required = "required" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.TEN, "Tên", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.TEN, new { @class = "form-control", @required = "required" })
+        </div>
+
+        <!-- Ngày Sinh - Giới Tính - Dân Tộc -->
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.NGAYSINH, "Ngày Sinh", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.NGAYSINH, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.GIOITINH, "Giới Tính", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.GIOITINH,
+                new SelectList(new[] { "Nam", "Nữ" }), "Chọn giới tính", new { @class = "form-select" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.DANTOC, "Dân Tộc", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.DANTOC, new { @class = "form-control", @placeholder = "Kinh" })
+        </div>
+
+        <!-- Điện Thoại - Email - Tôn Giáo -->
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.DIENTHOAI, "Điện Thoại", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.DIENTHOAI, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.EMAIL, "Email", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control", type = "email" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.TONGIAO, "Tôn Giáo", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.TONGIAO, new { @class = "form-control" })
+        </div>
+
+        <!-- Địa Chỉ - Nơi Sinh - Ngày Nhập Học -->
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.DIACHI, "Địa Chỉ", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.DIACHI, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.NOISINH, "Nơi Sinh", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.NOISINH, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.NGAYNHAPHOC, "Ngày Nhập Học", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(m => m.NGAYNHAPHOC, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        </div>
+
+        <!-- Trạng Thái (Full row or partial) -->
+        <div class="col-md-12">
+            @Html.LabelFor(m => m.TRANGTHAI, "Trạng Thái", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(m => m.TRANGTHAI,
+                new SelectList(new[] { "Đang học", "Bảo lưu", "Thôi học", "Chuyển trường" }),
+                "Chọn trạng thái", new { @class = "form-select" })
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-success px-4">
+            <i class="bi bi-person-plus"></i> Thêm Học Sinh
+        </button>
+        <a href="@Url.Action("QuanLyHocSinh", "Admin")" class="btn btn-secondary ms-2">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}

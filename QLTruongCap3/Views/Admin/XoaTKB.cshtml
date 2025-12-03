@@ -1,0 +1,63 @@
+﻿@model QLTruongCap3.Models.THOIKHOABIEU
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-danger fw-bold mb-4">🗑️ Xóa Tiết Học</h2>
+
+<div class="alert alert-warning shadow-sm text-center mb-4">
+    <strong>⚠️ Bạn có chắc chắn muốn xóa tiết học này không?</strong>
+    <br />
+    <span class="text-muted">Hành động này sẽ xóa tiết học khỏi hệ thống.</span>
+</div>
+
+<div class="table-responsive" style="max-width: 600px; margin: 0 auto;">
+    <table class="table table-bordered shadow-sm bg-white">
+        <tr>
+            <th class="bg-light" style="width: 30%">Lớp</th>
+            <td class="fw-bold text-primary">@Model.LOP.TENLOP</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Thời gian</th>
+            <td class="fw-bold text-danger">Thứ @Model.THU - Tiết @Model.TIET</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Môn học</th>
+            <td class="fw-bold">@Model.MONHOC.TENMH</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Giáo viên</th>
+            <td>@Model.GIAOVIEN.HOTEN</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Phòng học</th>
+            <td>@Model.PHONGHOC.TENPHONG</td>
+        </tr>
+        <tr>
+            <th class="bg-light">Học kỳ / Năm</th>
+            <td>@Model.MAHK (@Model.MANAM)</td>
+        </tr>
+    </table>
+</div>
+
+@using (Html.BeginForm("XoaTKB", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <!-- Hidden Fields để gửi Key về Controller -->
+    <input type="hidden" name="maLop" value="@Model.MALOP" />
+    <input type="hidden" name="maNam" value="@Model.MANAM" />
+    <input type="hidden" name="maHK" value="@Model.MAHK" />
+    <input type="hidden" name="thu" value="@Model.THU" />
+    <input type="hidden" name="tiet" value="@Model.TIET" />
+
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-danger px-4 fw-bold shadow-sm">
+            <i class="bi bi-trash-fill"></i> Xác Nhận Xóa
+        </button>
+        <a href="@Url.Action("QuanLyTKB", "Admin", new { searchNamHoc = Model.MANAM, searchHocKy = Model.MAHK, searchMaLop = Model.MALOP })"
+           class="btn btn-secondary ms-2 fw-bold shadow-sm">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}

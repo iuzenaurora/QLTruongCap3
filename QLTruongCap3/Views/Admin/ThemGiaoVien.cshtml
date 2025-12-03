@@ -1,0 +1,84 @@
+﻿@model QLTruongCap3.Models.GIAOVIEN
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center text-success fw-bold mb-4">➕ Thêm Giáo Viên</h2>
+
+@using (Html.BeginForm("ThemGiaoVien", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.MAGV, "Mã Giáo Viên")
+            @Html.TextBoxFor(m => m.MAGV, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.MAGV, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-8">
+            @Html.LabelFor(m => m.HOTEN, "Họ Tên")
+            @Html.TextBoxFor(m => m.HOTEN, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.HOTEN, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.NGAYSINH, "Ngày Sinh")
+            @Html.TextBoxFor(m => m.NGAYSINH, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.GIOITINH, "Giới Tính")
+            @Html.DropDownListFor(m => m.GIOITINH, new SelectList(new[] { "Nam", "Nữ" }), "Chọn giới tính", new { @class = "form-select" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.NOISINH, "Nơi Sinh")
+            @Html.TextBoxFor(m => m.NOISINH, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.DIENTHOAI, "Điện Thoại")
+            @Html.TextBoxFor(m => m.DIENTHOAI, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.EMAIL, "Email")
+            @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control", type = "email" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.DIACHI, "Địa Chỉ")
+            @Html.TextBoxFor(m => m.DIACHI, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.CCCD, "Căn Cước Công Dân")
+            @Html.TextBoxFor(m => m.CCCD, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.CHUYENMON, "Chuyên Môn")
+            @Html.TextBoxFor(m => m.CHUYENMON, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.TRINHDOHOCVAN, "Trình Độ Học Vấn")
+            @Html.TextBoxFor(m => m.TRINHDOHOCVAN, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.NGAYVAOLAM, "Ngày Vào Làm")
+            @Html.TextBoxFor(m => m.NGAYVAOLAM, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.TRANGTHAI, "Trạng Thái")
+            @Html.DropDownListFor(m => m.TRANGTHAI,
+                new SelectList(new[] { "Đang làm", "Nghỉ hưu", "Tạm nghỉ" }),
+                "Chọn trạng thái", new { @class = "form-select" })
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-success px-4">
+            <i class="bi bi-person-plus"></i> Thêm Giáo Viên
+        </button>
+        <a href="@Url.Action("QuanLyGiaoVien", "Admin")" class="btn btn-secondary ms-2">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}

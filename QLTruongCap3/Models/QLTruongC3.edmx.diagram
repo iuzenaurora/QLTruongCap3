@@ -5,29 +5,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4e722159f68d4fa48525b3955b514402" Name="Diagram1">
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.DIEM" Width="1.5" PointX="14.25" PointY="8.625" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.DIEMDANH" Width="1.5" PointX="3" PointY="9.125" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.DIEM" Width="1.5" PointX="3" PointY="19.625" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.DIEMDANH" Width="1.5" PointX="3" PointY="4.125" />
         <EntityTypeShape EntityType="QL_TRUONGC3Model.GIAOVIEN" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCKY" Width="1.5" PointX="9" PointY="16.5" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCSINH" Width="1.5" PointX="6" PointY="13.5" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCSINH_NAMHOC" Width="1.5" PointX="8.25" PointY="5.875" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.KHOI" Width="1.5" PointX="3.75" PointY="6.25" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.LOAIDIEM" Width="1.5" PointX="12" PointY="12.5" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.LOP" Width="1.5" PointX="6" PointY="5.5" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.MONHOC" Width="1.5" PointX="9" PointY="2.125" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.NAMHOC" Width="1.5" PointX="6" PointY="2" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHANCONG" Width="1.5" PointX="8.25" PointY="8.875" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHONGHOC" Width="1.5" PointX="9" PointY="13.375" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHUHUYNH" Width="1.5" PointX="8.25" PointY="20.375" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCKY" Width="1.5" PointX="0.75" PointY="26.25" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCSINH" Width="1.5" PointX="0.75" PointY="14.25" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.HOCSINH_NAMHOC" Width="1.5" PointX="8.25" PointY="9.875" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.KHOI" Width="1.5" PointX="0.75" PointY="6.25" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.LOAIDIEM" Width="1.5" PointX="0.75" PointY="29.375" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.LOP" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.MONHOC" Width="1.5" PointX="0.75" PointY="23" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.NAMHOC" Width="1.5" PointX="0.75" PointY="19.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHANCONG" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHONGHOC" Width="1.5" PointX="6" PointY="1.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.PHUHUYNH" Width="1.5" PointX="3" PointY="15.125" />
         <EntityTypeShape EntityType="QL_TRUONGC3Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="QL_TRUONGC3Model.TAIKHOAN" Width="1.5" PointX="6" PointY="9.5" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.THOIKHOABIEU" Width="1.5" PointX="11.25" PointY="7.5" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_DiemDanhChuNhiem" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_NhapDiem" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_TKB" Width="1.5" PointX="11.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_ThongTinVaLopCN" Width="1.5" PointX="11.75" PointY="4.75" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_XemDiem" Width="1.5" PointX="13.75" PointY="0.75" />
-        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_HS_TrangChu" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.THOIKHOABIEU" Width="1.5" PointX="8.25" PointY="5.125" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_DiemDanhChuNhiem" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_NhapDiem" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_TKB" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_ThongTinVaLopCN" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_GV_XemDiem" Width="1.5" PointX="10.75" PointY="8.75" />
+        <EntityTypeShape EntityType="QL_TRUONGC3Model.VW_HS_TrangChu" Width="1.5" PointX="12.75" PointY="0.75" />
         <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_HK" />
         <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_HS" />
         <AssociationConnector Association="QL_TRUONGC3Model.FK_DIEM_LOAI" />
